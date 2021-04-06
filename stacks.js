@@ -6,13 +6,24 @@ class Stack {
     this.storage = storage;
   }
 
-  Add(value) {
+  push(value) {
+    this.storage.push(value);
     this.count++;
-    this.storage.push(value)
+  }
+
+  pop() {
+    if (this.count === 0) {
+      return console.log("Empty Stack");
+    }
+    this.storage.pop()
   }
 }
 
-var mystack = new Stack();
-mystack.Add(12)
-mystack.Add("letter")
-console.log(mystack.storage)
+var myStack = new Stack();
+myStack.push(12)
+myStack.push(15)
+// console.log(myStack.count)
+// console.log(myStack.storage)
+// console.log(myStack)
+myStack.pop();
+console.log(myStack.storage)
