@@ -1,29 +1,35 @@
 // functions: push, pop, peak, length
 
 class Stack {
-  constructor(count = 0, storage = []) {
-    this.count = count;
+  constructor(storage = []) {
     this.storage = storage;
   }
 
   push(value) {
     this.storage.push(value);
-    this.count++;
   }
 
   pop() {
-    if (this.count === 0) {
+    if (!this.storage.length) {
       return console.log("Empty Stack");
     }
-    this.storage.pop()
+    // this.storage.pop()
+    this.storage.splice(this.storage.length - 1, 1)
+  }
+
+  peak() {
+    if (!this.storage.length) {
+      return console.log("Empty Stack");
+    }
+    return this.storage[this.storage.length - 1];
+  }
+
+  length(){
+    if (!this.storage.length) {
+      return console.log("Empty Stack");
+    }
+    return this.storage.length;
   }
 }
 
 var myStack = new Stack();
-myStack.push(12)
-myStack.push(15)
-// console.log(myStack.count)
-// console.log(myStack.storage)
-// console.log(myStack)
-myStack.pop();
-console.log(myStack.storage)
