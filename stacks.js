@@ -1,5 +1,3 @@
-// functions: push, pop, peak, length
-
 class Stack {
   constructor(storage = []) {
     this.storage = storage;

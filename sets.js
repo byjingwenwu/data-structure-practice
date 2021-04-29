@@ -1,5 +1,3 @@
-//functions: add, clear, delete, has
-
 class createSet {
   constructor(collection = []) {
     this.collection = collection;
@@ -28,6 +26,14 @@ class createSet {
       return console.log("removed");
     }
     return console.log("error");
+  }
+
+  size() {
+    console.log(this.collection.length);
+  }
+
+  clear() {
+    return this.collection = [];
   }
 }
 
