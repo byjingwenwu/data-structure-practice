@@ -1,23 +1,24 @@
-var hash = (string, max) => {
-  let hash = 0;
-  for (let i = 0; i < string.length; i++) {
-    hash += string.charCodeAt(i);
-  }
-  return hash % max;
-}
-
 class createHash {
-  constructor(storage, storageMax) {
-    this.storage = storage;
-    this.storageMax = storageMax;
+  constructor() {
+    this.storage = [];
+    this.storageMax = 10;
+  }
+
+  //simple example hash function
+  hash(input) {
+    let h = 0;
+    for (let i = 0; i < input.length; i++) {
+      h += input.charCodeAt(i);
+    }
+    return h % this.storageMax;
   }
 
   add(key, value) {
-    let index = hash(key, this.storageMax);
+    let index = hash(key);
     if (this.storage[index] === undefined) {
       this.storage[index] = [[key, value]];
     } else {
-      for (let i = 0; i < this.storage[index].length; i++){
+      for (let i = 0; i < this.storage[index].length; i++) {
         if (this.storage[index][i][0] === key) {
           this.storage[index][i][1] = value;
           return;
@@ -28,22 +29,23 @@ class createHash {
   }
 
   remove(key) {
-    let index = hash(key, this.storageMax);
+    let index = hash(key);
     if (!this.storage[index]) {
-      return console.log("value not exist");
-    }
-    if(this.storage[index].length === 1 && storage[index][0][0] === key) {
-      detele this.storage[index];
-      return;
+      return console.log("Value not exist.");
     }
     for (let i = 0; i < this.storage[index].length; i++) {
       if (this.storage[index][i][0] === key) {
         delete this.storage[index][i];
-      } else {
-        return console.log("value not exist");
+        return;
       }
     }
+    return console.log("value not exist.");
+  }
+
+  search(key) {
+    let index = hash(key);
+
   }
 }
 
-var myHash = new createHash([], 10)
+var myHash = new createHash()
