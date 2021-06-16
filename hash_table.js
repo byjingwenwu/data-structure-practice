@@ -1,49 +1,43 @@
-var hash = (string, max) => {
-  let hash = 0;
-  for (let i = 0; i < string.length; i++) {
-    hash += string.charCodeAt(i);
+class hashTable {
+  constructor() {
+    this.storage = {};
+    this.tableSize = 10;
   }
-  return hash % max;
-}
 
-class createHash {
-  constructor(storage, storageMax) {
-    this.storage = storage;
-    this.storageMax = storageMax;
+  //simple example hash function, assume input as strings
+  hashFunction(key) {
+    let h = 0;
+    for (let i = 0; i < key.length; i++) {
+      h += key.charCodeAt(i);
+    }
+    return h % this.tableSize;
   }
 
   add(key, value) {
-    let index = hash(key, this.storageMax);
-    if (this.storage[index] === undefined) {
-      this.storage[index] = [[key, value]];
+    const hash = this.hashFunction(key);
+    if (!this.storage.hasOwnProperty(hash)) {
+      this.storage[hash] = {};
+    }
+    this.storage[hash][key] = value;
+  }
+
+  search(key) {
+    const hash = this.hashFunction(key);
+    if (!this.storage.hasOwnProperty(hash) || !this.storage[hash].hasOwnProperty(key)) {
+      return console.log("Value not found.")
     } else {
-      for (let i = 0; i < this.storage[index].length; i++){
-        if (this.storage[index][i][0] === key) {
-          this.storage[index][i][1] = value;
-          return;
-        }
-      }
-      this.storage[index].push([key, value]);
+      return this.storage[hash][key];
     }
   }
 
-  remove(key) {
-    let index = hash(key, this.storageMax);
-    if (!this.storage[index]) {
-      return console.log("value not exist");
-    }
-    if(this.storage[index].length === 1 && storage[index][0][0] === key) {
-      detele this.storage[index];
-      return;
-    }
-    for (let i = 0; i < this.storage[index].length; i++) {
-      if (this.storage[index][i][0] === key) {
-        delete this.storage[index][i];
-      } else {
-        return console.log("value not exist");
-      }
+  delete(key) {
+    const hash = this.hashFunction(key);
+    if (!this.storage.hasOwnProperty(hash) || !this.storage[hash].hasOwnProperty(key)) {
+      return console.log("No such value.")
+    } else {
+      return delete this.storage[hash][key];
     }
   }
 }
 
-var myHash = new createHash([], 10)
+const myHash = new hashTable();
