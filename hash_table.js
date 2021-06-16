@@ -1,51 +1,43 @@
-class createHash {
+class hashTable {
   constructor() {
-    this.storage = [];
-    this.storageMax = 10;
+    this.storage = {};
+    this.tableSize = 10;
   }
 
-  //simple example hash function
-  hash(input) {
+  //simple example hash function, assume input as strings
+  hashFunction(key) {
     let h = 0;
-    for (let i = 0; i < input.length; i++) {
-      h += input.charCodeAt(i);
+    for (let i = 0; i < key.length; i++) {
+      h += key.charCodeAt(i);
     }
-    return h % this.storageMax;
+    return h % this.tableSize;
   }
 
   add(key, value) {
-    let index = hash(key);
-    if (this.storage[index] === undefined) {
-      this.storage[index] = [[key, value]];
-    } else {
-      for (let i = 0; i < this.storage[index].length; i++) {
-        if (this.storage[index][i][0] === key) {
-          this.storage[index][i][1] = value;
-          return;
-        }
-      }
-      this.storage[index].push([key, value]);
+    const hash = this.hashFunction(key);
+    if (!this.storage.hasOwnProperty(hash)) {
+      this.storage[hash] = {};
     }
-  }
-
-  remove(key) {
-    let index = hash(key);
-    if (!this.storage[index]) {
-      return console.log("Value not exist.");
-    }
-    for (let i = 0; i < this.storage[index].length; i++) {
-      if (this.storage[index][i][0] === key) {
-        delete this.storage[index][i];
-        return;
-      }
-    }
-    return console.log("value not exist.");
+    this.storage[hash][key] = value;
   }
 
   search(key) {
-    let index = hash(key);
+    const hash = this.hashFunction(key);
+    if (!this.storage.hasOwnProperty(hash) || !this.storage[hash].hasOwnProperty(key)) {
+      return console.log("Value not found.")
+    } else {
+      return this.storage[hash][key];
+    }
+  }
 
+  delete(key) {
+    const hash = this.hashFunction(key);
+    if (!this.storage.hasOwnProperty(hash) || !this.storage[hash].hasOwnProperty(key)) {
+      return console.log("No such value.")
+    } else {
+      return delete this.storage[hash][key];
+    }
   }
 }
 
-var myHash = new createHash()
+const myHash = new hashTable();
